@@ -1,0 +1,36 @@
+- hosts: localhost
+  vars_files: 
+  - secure.yml
+  pre_tasks: 
+  - name: Provision OS in AWS
+    ec2:
+      instance_tags:
+        Name: Webserver
+      key_name: "keypair_docker_webserver"
+      instance_type: "t2.micro"
+      image: "ami-09a7bbd08886aafdf"
+      wait: yes
+      count: 1
+      vpc_subnet_id: "subnet-9e9fa5f6"
+      assign_public_ip: yes
+      state: present
+      region: "ap-south-1"
+      group_id: "sg-02548637202b85d22"
+      aws_access_key: "{{ access_key }}"
+      aws_secret_key: "{{ secret_key }}"
+  - name: Wait to Completely Provision Instances
+    pause:
+      minutes: 2
+  - name: Refresh Inventory 
+    meta: refresh_inventory 
+
+- hosts: all
+  roles:
+  - role: webserver
+
+
+
+
+
+
+

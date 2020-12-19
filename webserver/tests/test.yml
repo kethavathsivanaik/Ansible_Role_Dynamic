@@ -1,0 +1,5 @@
+---
+- hosts: ec2
+  remote_user: ec2-user
+  roles:
+    - webserver

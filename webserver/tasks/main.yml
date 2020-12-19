@@ -1,0 +1,16 @@
+---
+# tasks file for webserve
+- name: Install Httpd
+  package:
+    name: httpd
+    state: present
+- name:  Copy Website to Webserver
+  copy:
+    src: ./files/index.html
+    dest: /var/www/html/
+- name: Start Service
+  service:
+    name: httpd
+    state: started
+
+
